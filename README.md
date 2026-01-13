@@ -11,7 +11,7 @@ Minimal Neovim configuration focused on built-in LSP and a small set of plugins.
 
 ## Requirements
 
-- Neovim 0.10+ (for `vim.lsp` and `vim.pack`).  
+- Neovim 0.12+ (for `vim.lsp` and `vim.pack`).  
 - Language servers installed locally (e.g. `lua-language-server`, `gopls`, `rust-analyzer`, `zls`).  
 
 ## Installation
