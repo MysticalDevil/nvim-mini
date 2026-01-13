@@ -1,0 +1,20 @@
+{
+  "plugins": {
+    "lazydev.nvim": {
+      "rev": "5231c62aa83c2f8dc8e7ba957aa77098cda1257d",
+      "src": "https://github.com/folke/lazydev.nvim"
+    },
+    "nvim-lspconfig": {
+      "rev": "92ee7d42320edfbb81f3cad851314ab197fa324a",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "nvim-treesitter": {
+      "rev": "5a7e5638e7d220575b1c22c8a2e099b52231886e",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
+    },
+    "onedarkpro.nvim": {
+      "rev": "6b12e00bf5e509e1278a84e2aecf918ca6be9aea",
+      "src": "https://github.com/olimorris/onedarkpro.nvim"
+    }
+  }
+}
