@@ -23,3 +23,8 @@ require("gitsigns").setup({
     vim.cmd("redrawstatus")
   end,
 })
+
+require("nvim-treesitter").setup()
+require("nvim-treesitter").install({
+  "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "rust", "zig", "go"
+}):wait(300000)
