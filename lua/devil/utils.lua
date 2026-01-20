@@ -34,4 +34,17 @@ function M.apply(mappings, extra_opts)
   M.set_keymaps(merged)
 end
 
+---@param plugins string[]
+function M.plug_add(plugins)
+  local normalized = {}
+  for _, p in ipairs(plugins) do
+    if not p:match("^https?://") then
+      table.insert(normalized, "https://github.com/" .. p)
+    else
+      table.insert(normalized, p)
+    end
+  end
+  vim.pack.add(normalized)
+end
+
 return M
