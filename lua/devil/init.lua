@@ -1,7 +1,7 @@
-require("devil.base")
-require("devil.plug")
-require("devil.lsp")
-require("devil.diag")
+require("devil.base").setup()
+require("devil.plug").setup()
+require("devil.lsp").setup()
+require("devil.diag").setup()
 
 local utils = require("devil.utils")
 utils.set_keymaps(require("devil.keymap").general)

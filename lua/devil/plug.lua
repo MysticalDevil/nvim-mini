@@ -1,30 +1,39 @@
-require("devil.utils").plug_add({
-  "nvim-treesitter/nvim-treesitter",
-  "olimorris/onedarkpro.nvim",
-  "neovim/nvim-lspconfig",
-  "folke/lazydev.nvim",
-  "lewis6991/gitsigns.nvim",
-  "nvim-mini/mini.icons",
-})
+local utils = require("devil.utils")
 
-vim.cmd("colorscheme onedark")
+local M = {}
 
-require("lazydev").setup({
-  library = {
-    "lazy.nvim",
-    { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-  },
-})
+local function plug_install()
+  utils.plug_add({
+    "nvim-treesitter/nvim-treesitter",
+    "olimorris/onedarkpro.nvim",
+    "neovim/nvim-lspconfig",
+    "folke/lazydev.nvim",
+    "lewis6991/gitsigns.nvim",
+    "nvim-mini/mini.icons",
+  })
+end
 
-require("gitsigns").setup({
-  attach_to_untracked = true,
-  watch_gitdir = { follow_files = true },
-  on_attach = function()
-    vim.cmd("redrawstatus")
-  end,
-})
+local function plug_setting()
+  require("lazydev").setup({})
 
-require("nvim-treesitter").setup()
-require("nvim-treesitter").install({
-  "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "rust", "zig", "go"
-}):wait(300000)
+  require("gitsigns").setup({
+    attach_to_untracked = true,
+    watch_gitdir = { follow_files = true },
+    on_attach = function()
+      vim.cmd("redrawstatus")
+    end,
+  })
+
+  require("nvim-treesitter").setup()
+  require("nvim-treesitter").install({
+    "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "rust", "zig", "go"
+  }):wait(300000)
+end
+
+function M.setup()
+  plug_install()
+  vim.cmd("colorscheme onedark")
+  plug_setting()
+end
+
+return M

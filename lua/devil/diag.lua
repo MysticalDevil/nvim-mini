@@ -6,7 +6,7 @@ local signs = {
 }
 
 local opts = {
-  virtual_text = true,
+  virtual_text = { source = true },
   virtual_lines = { current_line = true },
   underline = true,
   signs = {
@@ -30,4 +30,10 @@ local opts = {
   },
 }
 
-vim.diagnostic.config(opts)
+local M = {}
+
+function M.setup()
+  vim.diagnostic.config(opts)
+end
+
+return M
