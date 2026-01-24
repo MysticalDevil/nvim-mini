@@ -55,7 +55,6 @@ M.servers = {
         experimentalPostfixCompletions = true,
         analyses = {
           shadow = true,
-          fieldalignment = true,
           nilness = true,
           unusedparams = true,
           unusedwrite = true,

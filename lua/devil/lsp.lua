@@ -1,4 +1,3 @@
--- lua/devil/lsp.lua
 local M = {}
 
 local servers = require("devil.servers").servers
@@ -28,4 +27,3 @@ function M.setup()
 end
 
 return M
-
