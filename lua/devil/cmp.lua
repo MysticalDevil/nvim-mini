@@ -92,48 +92,50 @@ M.mappings = {
   },
 }
 
-local function set_pum_hl()
-  local function apply()
-    vim.api.nvim_set_hl(0, "Pmenu", { link = "NormalFloat", force = true })
-    vim.api.nvim_set_hl(0, "PmenuSel", { link = "Visual", force = true })
+local function apply_completion_hl()
+  vim.api.nvim_set_hl(0, "Pmenu", { link = "NormalFloat" })
+  vim.api.nvim_set_hl(0, "PmenuSel", { link = "Visual" })
 
-    local kind_links = {
-      PmenuKindText = "String",
-      PmenuKindMethod = "Function",
-      PmenuKindFunction = "Function",
-      PmenuKindConstructor = "Type",
-      PmenuKindField = "Identifier",
-      PmenuKindVariable = "Identifier",
-      PmenuKindClass = "Type",
-      PmenuKindInterface = "Type",
-      PmenuKindModule = "Include",
-      PmenuKindProperty = "Identifier",
-      PmenuKindUnit = "Number",
-      PmenuKindValue = "String",
-      PmenuKindEnum = "Type",
-      PmenuKindKeyword = "Keyword",
-      PmenuKindSnippet = "Special",
-      PmenuKindColor = "Special",
-      PmenuKindFile = "Directory",
-      PmenuKindReference = "Special",
-      PmenuKindFolder = "Directory",
-      PmenuKindEnumMember = "Constant",
-      PmenuKindConstant = "Constant",
-      PmenuKindStruct = "Type",
-      PmenuKindEvent = "Type",
-      PmenuKindOperator = "Operator",
-      PmenuKindTypeParameter = "Type",
-    }
+  vim.api.nvim_set_hl(0, "PmenuMatch", { link = "Search" })
+  vim.api.nvim_set_hl(0, "PmenuMatchSel", { link = "IncSearch" })
 
-    for kind_hl, target_hl in pairs(kind_links) do
-      vim.api.nvim_set_hl(0, kind_hl, { link = target_hl, force = true })
-    end
-  end
+  vim.api.nvim_set_hl(0, "PmenuSbar", { link = "Pmenu" })
+  vim.api.nvim_set_hl(0, "PmenuThumb", { link = "PmenuSel" })
 
-  apply()
+  vim.api.nvim_set_hl(0, "PmenuKind", { link = "Special" })
+
+  vim.api.nvim_set_hl(0, "CmpItemKindText", { link = "@string" })
+  vim.api.nvim_set_hl(0, "CmpItemKindMethod", { link = "@function.method" })
+  vim.api.nvim_set_hl(0, "CmpItemKindFunction", { link = "@function" })
+  vim.api.nvim_set_hl(0, "CmpItemKindConstructor", { link = "@constructor" })
+  vim.api.nvim_set_hl(0, "CmpItemKindField", { link = "@variable.member" })
+  vim.api.nvim_set_hl(0, "CmpItemKindVariable", { link = "@variable" })
+  vim.api.nvim_set_hl(0, "CmpItemKindClass", { link = "@type" })
+  vim.api.nvim_set_hl(0, "CmpItemKindInterface", { link = "@type" })
+  vim.api.nvim_set_hl(0, "CmpItemKindModule", { link = "@module" })
+  vim.api.nvim_set_hl(0, "CmpItemKindProperty", { link = "@property" })
+  vim.api.nvim_set_hl(0, "CmpItemKindUnit", { link = "@constant" })
+  vim.api.nvim_set_hl(0, "CmpItemKindValue", { link = "@constant" })
+  vim.api.nvim_set_hl(0, "CmpItemKindEnum", { link = "@type" })
+  vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { link = "@keyword" })
+  vim.api.nvim_set_hl(0, "CmpItemKindSnippet", { link = "Special" })
+  vim.api.nvim_set_hl(0, "CmpItemKindColor", { link = "Special" })
+  vim.api.nvim_set_hl(0, "CmpItemKindFile", { link = "Directory" })
+  vim.api.nvim_set_hl(0, "CmpItemKindReference", { link = "@variable" })
+  vim.api.nvim_set_hl(0, "CmpItemKindFolder", { link = "Directory" })
+  vim.api.nvim_set_hl(0, "CmpItemKindEnumMember", { link = "@constant" })
+  vim.api.nvim_set_hl(0, "CmpItemKindConstant", { link = "@constant" })
+  vim.api.nvim_set_hl(0, "CmpItemKindStruct", { link = "@type" })
+  vim.api.nvim_set_hl(0, "CmpItemKindEvent", { link = "Special" })
+  vim.api.nvim_set_hl(0, "CmpItemKindOperator", { link = "@operator" })
+  vim.api.nvim_set_hl(0, "CmpItemKindTypeParameter", { link = "@type" })
+end
+
+local function setup_completion_hl_autocmd()
   vim.api.nvim_create_autocmd("ColorScheme", {
-    callback = apply,
+    callback = apply_completion_hl,
   })
+  apply_completion_hl()
 end
 
 local function setup_completeopt()
@@ -171,16 +173,10 @@ local function make_item_preprocess(max_file_len)
     local kind_id = item.kind
     local label = item.label
     local looks_like_path = type(label) == "string" and (label:find("/") or label:find("\\"))
-    local is_file_kind = (kind_id == 17 or kind_id == 19) -- File or Folder
+    local is_file_kind = (kind_id == 17 or kind_id == 19)
 
     if is_file_kind or looks_like_path then
       item.label = shorten_middle(relpath(label), max_file_len)
-    end
-
-    local kind_name = kind_names[kind_id]
-    if kind_name then
-      local icon, _ = icons.get("lsp", kind_name)
-      item.kind = icon .. " " .. kind_name
     end
 
     return item
@@ -191,6 +187,12 @@ local function setup_native_completion()
   local max_file_len = 48
   local item_preprocess = make_item_preprocess(max_file_len)
 
+  local function kind_hlgroup(kind_id)
+    local kind_name = kind_names[kind_id]
+    if not kind_name then return nil, nil end
+    return "CmpItemKind" .. kind_name, kind_name
+  end
+
   vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
       local bufnr = args.buf
@@ -200,6 +202,24 @@ local function setup_native_completion()
       vim.lsp.completion.enable(true, client.id, bufnr, {
         autotrigger = true,
         item_preprocess = item_preprocess,
+
+        convert = function(item)
+          local out = {
+            word = item.insertText or item.label,
+            abbr = item.label,
+            menu = "",
+            kind = "",
+          }
+
+          local hl, kind_name = kind_hlgroup(item.kind)
+          if kind_name then
+            local icon = select(1, icons.get("lsp", kind_name))
+            out.kind = icon .. " " .. kind_name
+            out.kind_hlgroup = hl
+          end
+
+          return out
+        end,
       })
     end,
   })
@@ -207,7 +227,7 @@ end
 
 function M.setup()
   setup_completeopt()
-  set_pum_hl()
+  setup_completion_hl_autocmd()
   setup_native_completion()
   utils.set_keymaps(M.mappings)
 end

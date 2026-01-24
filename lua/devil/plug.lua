@@ -32,8 +32,8 @@ end
 
 function M.setup()
   plug_install()
-  vim.cmd("colorscheme onedark")
   plug_setting()
+  vim.cmd("colorscheme onedark")
 end
 
 return M
