@@ -1,8 +1,8 @@
 local signs = {
-  [vim.diagnostic.severity.ERROR] = "󰅚 ",
-  [vim.diagnostic.severity.WARN] = " ",
-  [vim.diagnostic.severity.HINT] = "󰌶 ",
-  [vim.diagnostic.severity.INFO] = " ",
+  [vim.diagnostic.severity.ERROR] = "E",
+  [vim.diagnostic.severity.WARN] = "W",
+  [vim.diagnostic.severity.INFO] = "I",
+  [vim.diagnostic.severity.HINT] = "H",
 }
 
 local opts = {
