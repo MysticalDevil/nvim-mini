@@ -59,6 +59,7 @@ M.general = {
   },
 
   { mode = "n", lhs = "<leader>bn", rhs = "<cmd> enew <CR>", desc = "New buffer" },
+  { mode = "n", lhs = "<leader>dv", rhs = "<cmd>DiagVirtualLinesToggle<CR>", desc = "Toggle diagnostic virtual lines" },
   {
     mode = "n",
     lhs = "<leader>fm",

@@ -7,7 +7,7 @@ local signs = {
 
 local opts = {
   virtual_text = { source = true },
-  virtual_lines = { current_line = true },
+  virtual_lines = false,
   underline = true,
   signs = {
     text = signs,
@@ -32,8 +32,24 @@ local opts = {
 
 local M = {}
 
+local virtual_lines_enabled = false
+
+function M.toggle_virtual_lines()
+  virtual_lines_enabled = not virtual_lines_enabled
+  vim.diagnostic.config({
+    virtual_lines = virtual_lines_enabled and { current_line = true } or false,
+  })
+  vim.notify(
+    string.format("diagnostic virtual_lines: %s", virtual_lines_enabled and "on" or "off"),
+    vim.log.levels.INFO
+  )
+end
+
 function M.setup()
   vim.diagnostic.config(opts)
+  vim.api.nvim_create_user_command("DiagVirtualLinesToggle", function()
+    M.toggle_virtual_lines()
+  end, { desc = "Toggle diagnostic virtual lines" })
 end
 
 return M
