@@ -58,7 +58,6 @@ M.general = {
   },
 
   { mode = "n", lhs = "<leader>bn", rhs = "<cmd> enew <CR>", desc = "New buffer" },
-  { mode = "n", lhs = "<leader>ch", rhs = "<cmd> NvCheatsheet <CR>", desc = "Mapping cheatsheet" },
   {
     mode = "n",
     lhs = "<leader>fm",
