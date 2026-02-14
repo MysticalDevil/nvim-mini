@@ -2,10 +2,13 @@ local utils = require("devil.utils")
 
 local M = {}
 
+---Treesitter parsers managed by this config.
+---@type string[]
 local ts_parsers = {
   "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "rust", "zig", "go",
 }
 
+---Install/sync plugin sources through vim.pack.
 local function plug_install()
   utils.plug_add({
     "nvim-treesitter/nvim-treesitter",
@@ -17,6 +20,7 @@ local function plug_install()
   })
 end
 
+---Configure installed plugins.
 local function plug_setting()
   require("lazydev").setup({})
 
@@ -31,10 +35,12 @@ local function plug_setting()
   require("nvim-treesitter").setup()
 end
 
+---Install configured Treesitter parsers on demand.
 local function install_treesitter_parsers()
   require("nvim-treesitter").install(ts_parsers)
 end
 
+---Register user commands for plugin/parser maintenance.
 local function setup_user_commands()
   vim.api.nvim_create_user_command("PackSync", function()
     plug_install()
@@ -45,6 +51,7 @@ local function setup_user_commands()
   end, { desc = "Install configured Treesitter parsers" })
 end
 
+---Bootstrap plugin layer and apply colorscheme fallback.
 function M.setup()
   plug_install()
   plug_setting()

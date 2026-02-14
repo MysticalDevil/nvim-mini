@@ -1,5 +1,7 @@
 local M = {}
 
+---Format current or target buffer.
+---Priority: conform.nvim (if present) -> built-in LSP formatting.
 ---@param opts? { bufnr?: integer, async?: boolean, timeout_ms?: integer }
 function M.format(opts)
   opts = opts or {}

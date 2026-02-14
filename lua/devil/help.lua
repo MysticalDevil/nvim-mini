@@ -1,5 +1,8 @@
 local M = {}
 
+---Normalize keymap mode field for display.
+---@param mode string|string[]
+---@return string
 local function normalize_mode(mode)
   if type(mode) == "table" then
     return table.concat(mode, ",")
@@ -7,6 +10,8 @@ local function normalize_mode(mode)
   return tostring(mode)
 end
 
+---Collect keymap descriptions for help buffer rendering.
+---@return string[]
 local function collect_lines()
   local km = require("devil.keymap")
   local lines = {
@@ -28,6 +33,7 @@ local function collect_lines()
   return lines
 end
 
+---Open keymap help in a scratch markdown buffer.
 function M.open_keymap_help()
   local buf = vim.api.nvim_create_buf(false, true)
   local lines = collect_lines()
@@ -38,6 +44,7 @@ function M.open_keymap_help()
   vim.api.nvim_set_current_buf(buf)
 end
 
+---Register :KeymapHelp command.
 function M.setup()
   vim.api.nvim_create_user_command("KeymapHelp", function()
     M.open_keymap_help()

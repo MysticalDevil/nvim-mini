@@ -5,6 +5,8 @@ local signs = {
   [vim.diagnostic.severity.HINT] = "H",
 }
 
+---Default diagnostic configuration.
+---@type vim.diagnostic.Opts
 local opts = {
   virtual_text = { source = true },
   virtual_lines = false,
@@ -32,8 +34,10 @@ local opts = {
 
 local M = {}
 
+---Tracks virtual_lines state for toggle command.
 local virtual_lines_enabled = false
 
+---Toggle diagnostic virtual_lines for the current session.
 function M.toggle_virtual_lines()
   virtual_lines_enabled = not virtual_lines_enabled
   vim.diagnostic.config({
@@ -45,6 +49,7 @@ function M.toggle_virtual_lines()
   )
 end
 
+---Apply diagnostic defaults and register related user commands.
 function M.setup()
   vim.diagnostic.config(opts)
   vim.api.nvim_create_user_command("DiagVirtualLinesToggle", function()
