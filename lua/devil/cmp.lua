@@ -36,9 +36,8 @@ M.mappings = {
   {
     mode = "i",
     lhs = "<C-e>",
-    rhs = function() return pumvisible() and "<C-e>" or "<C-e>" end,
+    rhs = "<C-e>",
     desc = "Abort completion",
-    opts = { expr = true, replace_keycodes = true },
   },
   {
     mode = { "i", "s" },
@@ -231,5 +230,4 @@ function M.setup()
   setup_native_completion()
   utils.set_keymaps(M.mappings)
 end
-
 return M
