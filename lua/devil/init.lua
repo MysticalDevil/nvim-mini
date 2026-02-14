@@ -3,6 +3,7 @@ require("devil.plug").setup()
 require("devil.lsp").setup()
 require("devil.diag").setup()
 require("devil.help").setup()
+pcall(require, "devil.local")
 
 local utils = require("devil.utils")
 utils.set_keymaps(require("devil.keymap").general)
