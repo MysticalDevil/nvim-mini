@@ -16,13 +16,27 @@ Minimal Neovim configuration focused on built-in LSP and a small set of plugins.
 
 ## Installation
 
-1. Clone or copy this repo into your Neovim config directory:
+1. Choose one install mode:
 
    ```bash
+   # Mode A: Replace main Neovim config
    git clone <repo-url> ~/.config/nvim
+
+   # Mode B: Keep as an isolated profile (recommended for this repo name)
+   git clone <repo-url> ~/.config/nvim-mini
    ```
 
-2. Launch Neovim. Plugins will be fetched via `vim.pack` on startup.
+2. Launch Neovim:
+
+   ```bash
+   # Mode A
+   nvim
+
+   # Mode B
+   NVIM_APPNAME=nvim-mini nvim
+   ```
+
+3. Plugins will be fetched via `vim.pack` on startup.
 
 ## Layout
 
