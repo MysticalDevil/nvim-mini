@@ -1,5 +1,12 @@
+--- Utility helpers for reusable keymap registration.
+-- @module devil.utils
+
 local M = {}
 
+--- Register keymaps from a declarative mapping list.
+-- Each item supports: `mode`, `lhs`, `rhs`, optional `desc`, optional `opts`.
+-- If `opts.silent` is omitted, it defaults to `true`.
+-- @param mappings table[] mapping definitions
 function M.set_keymaps(mappings)
   for _, map in ipairs(mappings) do
     local mode = map.mode
@@ -19,6 +26,10 @@ function M.set_keymaps(mappings)
   end
 end
 
+--- Apply a mapping list with additional options merged into each mapping.
+-- Useful for buffer-local LSP mappings (`{ buffer = bufnr }`), etc.
+-- @param mappings table[] mapping definitions
+-- @param extra_opts table|nil options merged into each `map.opts`
 function M.apply(mappings, extra_opts)
   if not extra_opts then
     return M.set_keymaps(mappings)
