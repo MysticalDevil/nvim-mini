@@ -33,7 +33,10 @@ end
 function M.setup()
   plug_install()
   plug_setting()
-  vim.cmd("colorscheme onedark")
+  local ok = pcall(vim.cmd.colorscheme, "onedark")
+  if not ok then
+    vim.cmd.colorscheme("habamax")
+  end
 end
 
 return M
