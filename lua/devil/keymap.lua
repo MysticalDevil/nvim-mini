@@ -191,7 +191,7 @@ M.lsp = {
     mode = "n",
     lhs = "[d",
     rhs = function()
-      vim.diagnostic.jump({ count = 1, float = { border = "rounded" } })
+      vim.diagnostic.jump({ count = -1, float = { border = "rounded" } })
     end,
     desc = "Prev diagnostic",
   },
