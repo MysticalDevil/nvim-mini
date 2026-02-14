@@ -2,6 +2,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 local M = {}
+local formatter = require("devil.format")
 
 local space_visible = false
 
@@ -62,7 +63,7 @@ M.general = {
     mode = "n",
     lhs = "<leader>fm",
     rhs = function()
-      vim.lsp.buf.format({ async = true })
+      formatter.format({ async = true })
     end,
     desc = "LSP formatting",
   },
@@ -182,7 +183,7 @@ M.lsp = {
     mode = "n",
     lhs = "<leader>fm",
     rhs = function()
-      vim.lsp.buf.format({ async = true })
+      formatter.format({ async = true })
     end,
     desc = "Format (LSP)",
   },

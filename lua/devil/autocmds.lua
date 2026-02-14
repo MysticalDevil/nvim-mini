@@ -95,6 +95,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   group = lsp_augroup,
   pattern = "*",
   callback = function(args)
-    vim.lsp.buf.format({ bufnr = args.buf, async = false })
+    formatter.format({ bufnr = args.buf, async = false })
   end,
 })
+local formatter = require("devil.format")
