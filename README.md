@@ -59,4 +59,33 @@ Minimal Neovim configuration focused on built-in LSP and a small set of plugins.
 
 - Treesitter is installed but not configured yet; add a `nvim-treesitter` setup block if you want
   language-specific highlighting and indentation.
-- To customize LSP settings, edit `lua/devil/lsp/servers.lua`.
+- To customize LSP settings, edit `lua/devil/servers.lua`.
+- For machine-specific overrides, create `lua/devil/local.lua` (see `lua/devil/local.example.lua`).
+
+## Maintenance Commands
+
+- `:PackSync` install/sync plugins declared in `lua/devil/plug.lua`.
+- `:TSInstallAll` install configured Treesitter parsers.
+- `:DiagVirtualLinesToggle` toggle diagnostic virtual lines.
+- `:KeymapHelp` open built-in keymap cheatsheet.
+- `:DevilHealth` run quick environment/config checks.
+
+## First-Run Troubleshooting
+
+- If `mise` reports untrusted config, run:
+
+  ```bash
+  mise trust ~/.config/nvim-mini/mise.toml
+  ```
+
+- If plugins fail to download (`Could not resolve host: github.com`), verify network/proxy first,
+  then rerun `:PackSync`.
+
+- If running as isolated profile, always use:
+
+  ```bash
+  NVIM_APPNAME=nvim-mini nvim
+  ```
+
+- If a language server does not start, run `:DevilHealth` and confirm the corresponding executable
+  is in your `PATH`.
