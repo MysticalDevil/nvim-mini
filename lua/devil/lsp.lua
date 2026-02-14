@@ -5,10 +5,34 @@ local km = require("devil.keymap")
 local utils = require("devil.utils")
 local cmp = require("devil.cmp")
 
+local server_binaries = {
+  lua_ls = "lua-language-server",
+  gopls = "gopls",
+  rust_analyzer = "rust-analyzer",
+  zls = "zls",
+}
+
+local function resolve_server_bin(server, config)
+  if type(config.cmd) == "table" and type(config.cmd[1]) == "string" and config.cmd[1] ~= "" then
+    return config.cmd[1]
+  end
+  return server_binaries[server] or server
+end
+
 function M.setup()
   for server, config in pairs(servers) do
+    local bin = resolve_server_bin(server, config)
+    if vim.fn.executable(bin) ~= 1 then
+      vim.notify(
+        string.format("[lsp] %s skipped: executable `%s` not found in PATH", server, bin),
+        vim.log.levels.WARN
+      )
+      goto continue
+    end
+
     vim.lsp.config(server, config)
     vim.lsp.enable(server)
+    ::continue::
   end
 
   cmp.setup()
