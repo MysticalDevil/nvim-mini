@@ -2,6 +2,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 local M = {}
+local formatter = require("devil.format")
 
 local space_visible = false
 
@@ -58,12 +59,13 @@ M.general = {
   },
 
   { mode = "n", lhs = "<leader>bn", rhs = "<cmd> enew <CR>", desc = "New buffer" },
-  { mode = "n", lhs = "<leader>ch", rhs = "<cmd> NvCheatsheet <CR>", desc = "Mapping cheatsheet" },
+  { mode = "n", lhs = "<leader>ch", rhs = "<cmd>KeymapHelp<CR>", desc = "Mapping cheatsheet" },
+  { mode = "n", lhs = "<leader>dv", rhs = "<cmd>DiagVirtualLinesToggle<CR>", desc = "Toggle diagnostic virtual lines" },
   {
     mode = "n",
     lhs = "<leader>fm",
     rhs = function()
-      vim.lsp.buf.format({ async = true })
+      formatter.format({ async = true })
     end,
     desc = "LSP formatting",
   },
@@ -183,7 +185,7 @@ M.lsp = {
     mode = "n",
     lhs = "<leader>fm",
     rhs = function()
-      vim.lsp.buf.format({ async = true })
+      formatter.format({ async = true })
     end,
     desc = "Format (LSP)",
   },
@@ -191,7 +193,7 @@ M.lsp = {
     mode = "n",
     lhs = "[d",
     rhs = function()
-      vim.diagnostic.jump({ count = 1, float = { border = "rounded" } })
+      vim.diagnostic.jump({ count = -1, float = { border = "rounded" } })
     end,
     desc = "Prev diagnostic",
   },
