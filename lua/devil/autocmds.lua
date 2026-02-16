@@ -98,6 +98,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   group = lsp_augroup,
   pattern = "*",
   callback = function(args)
+    local bufnr = args.buf
+    if not vim.api.nvim_buf_is_valid(bufnr) then return end
+    if vim.bo[bufnr].buftype ~= "" then return end
+    if not vim.bo[bufnr].modifiable then return end
+    if vim.api.nvim_buf_get_name(bufnr) == "" then return end
+
     formatter.format({ bufnr = args.buf, async = false })
   end,
 })
