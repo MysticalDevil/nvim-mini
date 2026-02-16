@@ -63,11 +63,11 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "DiagnosticChanged"
     -- This significantly reduces API calls and redraw overhead.
     if has_diagnostic and not is_virt_text_hidden then
       -- Diagnostics exist on current line + virtual_text is visible -> Hide it
-      vim.diagnostic.config({ virtual_text = false }, bufnr)
+      vim.diagnostic.show(nil, bufnr, nil, { virtual_text = false })
       virt_text_hidden_by_buf[bufnr] = true
     elseif not has_diagnostic and is_virt_text_hidden then
       -- No diagnostics on current line + virtual_text is hidden -> Restore it
-      vim.diagnostic.config({ virtual_text = default_virt_text }, bufnr)
+      vim.diagnostic.show(nil, bufnr, nil, { virtual_text = default_virt_text })
       virt_text_hidden_by_buf[bufnr] = false
     end
   end,
