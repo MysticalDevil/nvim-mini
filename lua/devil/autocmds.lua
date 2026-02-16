@@ -38,20 +38,23 @@ local diag_augroup = vim.api.nvim_create_augroup("diagnostic_tweaks", { clear = 
 ---@type boolean|vim.diagnostic.Opts.VirtualText|fun(namespace: integer, bufnr:integer)
 local default_virt_text = vim.diagnostic.config().virtual_text
 
--- State flag to track if virtual_text is currently hidden.
----@type boolean
-local is_virt_text_hidden = false
+-- State table to track virtual_text hidden status per buffer.
+---@type table<integer, boolean>
+local virt_text_hidden_by_buf = {}
 
 vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "DiagnosticChanged" }, {
   group = diag_augroup,
   callback = function()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local is_virt_text_hidden = virt_text_hidden_by_buf[bufnr] == true
+
     -- Get current line number (0-indexed for vim.diagnostic.get)
     ---@type integer
     local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
 
     -- Get diagnostics for the current line
     ---@type vim.Diagnostic[]
-    local diagnostics = vim.diagnostic.get(0, { lnum = lnum })
+    local diagnostics = vim.diagnostic.get(bufnr, { lnum = lnum })
 
     ---@type boolean
     local has_diagnostic = not vim.tbl_isempty(diagnostics)
@@ -60,12 +63,12 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "DiagnosticChanged"
     -- This significantly reduces API calls and redraw overhead.
     if has_diagnostic and not is_virt_text_hidden then
       -- Diagnostics exist on current line + virtual_text is visible -> Hide it
-      vim.diagnostic.config({ virtual_text = false })
-      is_virt_text_hidden = true
+      vim.diagnostic.config({ virtual_text = false }, bufnr)
+      virt_text_hidden_by_buf[bufnr] = true
     elseif not has_diagnostic and is_virt_text_hidden then
       -- No diagnostics on current line + virtual_text is hidden -> Restore it
-      vim.diagnostic.config({ virtual_text = default_virt_text })
-      is_virt_text_hidden = false
+      vim.diagnostic.config({ virtual_text = default_virt_text }, bufnr)
+      virt_text_hidden_by_buf[bufnr] = false
     end
   end,
 })
