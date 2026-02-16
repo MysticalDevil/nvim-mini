@@ -5,7 +5,7 @@ local M = {}
 local function plug_install()
   utils.plug_add({
     "nvim-treesitter/nvim-treesitter",
-    "olimorris/onedarkpro.nvim",
+    "folke/tokyonight.nvim",
     "neovim/nvim-lspconfig",
     "folke/lazydev.nvim",
     "lewis6991/gitsigns.nvim",
@@ -33,7 +33,7 @@ end
 function M.setup()
   plug_install()
   plug_setting()
-  vim.cmd("colorscheme onedark")
+  vim.cmd("colorscheme tokyonight")
 end
 
 return M

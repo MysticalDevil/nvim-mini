@@ -6,7 +6,7 @@ Minimal Neovim configuration focused on built-in LSP and a small set of plugins.
 
 - Opinionated defaults for editor options.  
 - Built-in LSP configuration for Lua, Go, Rust, and Zig.  
-- Lightweight plugin set (Treesitter, Onedark, LSP config, LazyDev).  
+- Lightweight plugin set (Treesitter, TokyoNight, LSP config, LazyDev).  
 - Keymaps for common editing and LSP actions.  
 
 ## Requirements
