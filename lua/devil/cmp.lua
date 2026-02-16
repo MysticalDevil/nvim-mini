@@ -35,7 +35,7 @@ M.mappings = {
   },
   {
     mode = "i",
-    lhs = "<C-e>",
+    lhs = "<M-e>",
     rhs = "<C-e>",
     desc = "Abort completion",
   },
