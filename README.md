@@ -49,16 +49,15 @@ Minimal Neovim configuration focused on built-in LSP and a small set of plugins.
         ├── cmp.lua         # native completion keymaps
         ├── keymap.lua      # general + LSP keymaps
         ├── lsp.lua         # LSP setup + keymap binding
-        ├── lsp
-        │   └── servers.lua # per-language server config
+        ├── servers.lua     # per-language server config
         ├── plug.lua        # plugin list
         └── utils.lua       # keymap helpers
 ```
 
 ## Notes
 
-- Treesitter is installed but not configured yet; add a `nvim-treesitter` setup block if you want
-  language-specific highlighting and indentation.
+- Treesitter parsers are managed by `:TSInstallAll`; matching filetypes auto-start Treesitter and
+  use Treesitter-based indentation.
 - To customize LSP settings, edit `lua/devil/servers.lua`.
 - For machine-specific overrides, create `lua/devil/local.lua` (see `lua/devil/local.example.lua`).
 
