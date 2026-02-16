@@ -185,6 +185,7 @@ end
 local function setup_native_completion()
   local max_file_len = 48
   local item_preprocess = make_item_preprocess(max_file_len)
+  local completion_attach_group = vim.api.nvim_create_augroup("DevilLspAttachCompletion", { clear = true })
 
   local function kind_hlgroup(kind_id)
     local kind_name = kind_names[kind_id]
@@ -193,6 +194,7 @@ local function setup_native_completion()
   end
 
   vim.api.nvim_create_autocmd("LspAttach", {
+    group = completion_attach_group,
     callback = function(args)
       local bufnr = args.buf
       local client = vim.lsp.get_client_by_id(args.data.client_id)

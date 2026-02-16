@@ -44,7 +44,9 @@ function M.setup()
 
   cmp.setup()
 
+  local lsp_attach_group = vim.api.nvim_create_augroup("DevilLspAttachKeymaps", { clear = true })
   vim.api.nvim_create_autocmd("LspAttach", {
+    group = lsp_attach_group,
     callback = function(args)
       local bufnr = args.buf
       local client = vim.lsp.get_client_by_id(args.data.client_id)
