@@ -59,8 +59,14 @@ local function check_treesitter(lines)
     return
   end
 
-  local ok = pcall(vim.treesitter.language.get_lang, ft)
-  push(lines, ok and "OK" or "WARN", string.format("Treesitter parser for filetype `%s`", ft))
+  local ok_lang, lang = pcall(vim.treesitter.language.get_lang, ft)
+  if not ok_lang or not lang or lang == "" then
+    push(lines, "WARN", string.format("Treesitter language mapping for filetype `%s`", ft))
+    return
+  end
+
+  local ok_parser = pcall(vim.treesitter.get_parser, 0, lang)
+  push(lines, ok_parser and "OK" or "WARN", string.format("Treesitter parser for filetype `%s` (%s)", ft, lang))
 end
 
 ---Render health report into a scratch markdown buffer.
