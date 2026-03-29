@@ -1,3 +1,5 @@
+local formatter = require("devil.format")
+
 local stl_augroup = vim.api.nvim_create_augroup("StatuslineGit", { clear = true })
 
 vim.api.nvim_create_autocmd("User", {
@@ -107,4 +109,3 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     formatter.format({ bufnr = args.buf, async = false })
   end,
 })
-local formatter = require("devil.format")

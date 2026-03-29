@@ -55,6 +55,7 @@ end
 function M.setup()
   plug_install()
   plug_setting()
+  setup_user_commands()
   vim.cmd("colorscheme tokyonight")
 end
 
