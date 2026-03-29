@@ -15,6 +15,7 @@ local function plug_install()
     "folke/tokyonight.nvim",
     "neovim/nvim-lspconfig",
     "folke/lazydev.nvim",
+    "j-hui/fidget.nvim",
     "lewis6991/gitsigns.nvim",
     "nvim-mini/mini.icons",
   })
@@ -23,6 +24,7 @@ end
 ---Configure installed plugins.
 local function plug_setting()
   require("lazydev").setup({})
+  require("fidget").setup({})
 
   require("gitsigns").setup({
     attach_to_untracked = true,
