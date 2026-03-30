@@ -18,13 +18,17 @@ local function plug_install()
     "j-hui/fidget.nvim",
     "lewis6991/gitsigns.nvim",
     "nvim-mini/mini.icons",
+    "ibhagwan/fzf-lua",
+    "rcarriga/nvim-notify",
   })
 end
 
 ---Configure installed plugins.
 local function plug_setting()
+  require("devil.notify").setup()
   require("lazydev").setup({})
   require("fidget").setup({})
+  require("fzf-lua").setup({})
 
   require("gitsigns").setup({
     attach_to_untracked = true,

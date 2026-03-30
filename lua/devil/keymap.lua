@@ -3,6 +3,7 @@ vim.g.maplocalleader = " "
 
 local M = {}
 local formatter = require("devil.format")
+local picker = require("devil.picker")
 
 local space_visible = false
 
@@ -61,6 +62,9 @@ M.general = {
   { mode = "n", lhs = "<leader>bn", rhs = "<cmd> enew <CR>", desc = "New buffer" },
   { mode = "n", lhs = "<leader>ch", rhs = "<cmd>KeymapHelp<CR>", desc = "Mapping cheatsheet" },
   { mode = "n", lhs = "<leader>dv", rhs = "<cmd>DiagVirtualLinesToggle<CR>", desc = "Toggle diagnostic virtual lines" },
+  { mode = "n", lhs = "<leader>fb", rhs = picker.buffers, desc = "Find buffers" },
+  { mode = "n", lhs = "<leader>fd", rhs = picker.diagnostics, desc = "Find diagnostics" },
+  { mode = "n", lhs = "<leader>ff", rhs = picker.files, desc = "Find files" },
   {
     mode = "n",
     lhs = "<leader>fm",
@@ -69,6 +73,10 @@ M.general = {
     end,
     desc = "LSP formatting",
   },
+  { mode = "n", lhs = "<leader>fg", rhs = picker.grep, desc = "Find grep" },
+  { mode = "n", lhs = "<leader>fh", rhs = picker.help, desc = "Find help" },
+  { mode = "n", lhs = "<leader>fr", rhs = picker.references, desc = "Find references" },
+  { mode = "n", lhs = "<leader>fs", rhs = picker.symbols, desc = "Find symbols" },
 
   {
     mode = "n",
