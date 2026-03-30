@@ -7,10 +7,10 @@ function M.setup()
   end
 
   notify.setup({
-    fps = 60,
+    fps = 30,
     render = "wrapped-default",
     stages = "fade_in_slide_out",
-    timeout = 2500,
+    timeout = 1800,
     top_down = false,
   })
 

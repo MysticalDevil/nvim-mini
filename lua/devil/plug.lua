@@ -20,12 +20,14 @@ local function plug_install()
     "nvim-mini/mini.icons",
     "ibhagwan/fzf-lua",
     "rcarriga/nvim-notify",
+    "stevearc/conform.nvim",
   })
 end
 
 ---Configure installed plugins.
 local function plug_setting()
   require("devil.notify").setup()
+  require("devil.conform").setup()
   require("lazydev").setup({})
   require("fidget").setup({})
   require("fzf-lua").setup({})

@@ -182,10 +182,10 @@ M.general = {
 }
 
 M.lsp = {
-  { mode = "n", lhs = "gd", rhs = vim.lsp.buf.definition, desc = "Go to definition" },
-  { mode = "n", lhs = "gr", rhs = vim.lsp.buf.references, desc = "Find references" },
-  { mode = "n", lhs = "gD", rhs = vim.lsp.buf.declaration, desc = "Go to declaration" },
-  { mode = "n", lhs = "gi", rhs = vim.lsp.buf.implementation, desc = "Go to implementation" },
+  { mode = "n", lhs = "gd", rhs = picker.definitions, desc = "Go to definition" },
+  { mode = "n", lhs = "gr", rhs = picker.references, desc = "Find references" },
+  { mode = "n", lhs = "gD", rhs = picker.declarations, desc = "Go to declaration" },
+  { mode = "n", lhs = "gi", rhs = picker.implementations, desc = "Go to implementation" },
   { mode = "n", lhs = "K", rhs = vim.lsp.buf.hover, desc = "Hover" },
   { mode = "n", lhs = "<leader>rn", rhs = vim.lsp.buf.rename, desc = "Rename symbol" },
   { mode = "n", lhs = "<leader>ca", rhs = vim.lsp.buf.code_action, desc = "Code action" },

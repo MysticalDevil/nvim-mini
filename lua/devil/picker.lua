@@ -11,6 +11,21 @@ local function with_fzf(fn)
   end
 end
 
+local function with_fzf_lsp(method, fallback)
+  return with_fzf(function(fzf)
+    local picker = fzf[method]
+    if type(picker) == "function" then
+      return picker()
+    end
+
+    if fallback then
+      return fallback()
+    end
+
+    vim.notify(string.format("fzf-lua does not support `%s` in this build", method), vim.log.levels.WARN)
+  end)
+end
+
 M.files = with_fzf(function(fzf)
   fzf.files()
 end)
@@ -31,12 +46,14 @@ M.diagnostics = with_fzf(function(fzf)
   fzf.diagnostics_document()
 end)
 
-M.references = with_fzf(function(fzf)
-  fzf.lsp_references()
-end)
+M.definitions = with_fzf_lsp("lsp_definitions", vim.lsp.buf.definition)
 
-M.symbols = with_fzf(function(fzf)
-  fzf.lsp_document_symbols()
-end)
+M.declarations = with_fzf_lsp("lsp_declarations", vim.lsp.buf.declaration)
+
+M.implementations = with_fzf_lsp("lsp_implementations", vim.lsp.buf.implementation)
+
+M.references = with_fzf_lsp("lsp_references", vim.lsp.buf.references)
+
+M.symbols = with_fzf_lsp("lsp_document_symbols")
 
 return M
