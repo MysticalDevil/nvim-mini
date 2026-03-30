@@ -24,13 +24,6 @@ local function check_neovim(lines)
   push(lines, ok and "OK" or "WARN", "Neovim >= 0.12")
 end
 
----Check whether mise is available in PATH.
----@param lines string[]
-local function check_mise(lines)
-  local ok = vim.fn.executable("mise") == 1
-  push(lines, ok and "OK" or "WARN", "mise available in PATH")
-end
-
 ---Check each configured LSP executable.
 ---@param lines string[]
 local function check_lsp_bins(lines)
@@ -77,7 +70,6 @@ function M.report()
   }
 
   check_neovim(lines)
-  check_mise(lines)
   check_lsp_bins(lines)
   check_commands(lines)
   check_treesitter(lines)

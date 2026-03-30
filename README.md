@@ -6,7 +6,7 @@ Minimal Neovim configuration focused on built-in LSP and a small set of plugins.
 
 - Opinionated defaults for editor options.  
 - Built-in LSP configuration for Lua, Go, Rust, and Zig.  
-- Lightweight plugin set (Treesitter, TokyoNight, LSP config, LazyDev).  
+- Lightweight plugin set (Treesitter, TokyoNight, LSP config, LazyDev, fzf-lua, notify).  
 - Keymaps for common editing and LSP actions.  
 
 ## Requirements
@@ -69,13 +69,17 @@ Minimal Neovim configuration focused on built-in LSP and a small set of plugins.
 - `:KeymapHelp` open built-in keymap cheatsheet.
 - `:DevilHealth` run quick environment/config checks.
 
+## Finder Keymaps
+
+- `<leader>ff` find files.
+- `<leader>fg` live grep.
+- `<leader>fb` switch buffers.
+- `<leader>fh` search help tags.
+- `<leader>fd` show document diagnostics.
+- `<leader>fr` show LSP references.
+- `<leader>fs` show document symbols.
+
 ## First-Run Troubleshooting
-
-- If `mise` reports untrusted config, run:
-
-  ```bash
-  mise trust ~/.config/nvim-mini/mise.toml
-  ```
 
 - If plugins fail to download (`Could not resolve host: github.com`), verify network/proxy first,
   then rerun `:PackSync`.
