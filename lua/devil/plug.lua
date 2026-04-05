@@ -15,7 +15,7 @@ local function plug_install()
     "folke/tokyonight.nvim",
     "neovim/nvim-lspconfig",
     "folke/lazydev.nvim",
-    "j-hui/fidget.nvim",
+    -- "j-hui/fidget.nvim",
     "lewis6991/gitsigns.nvim",
     "nvim-mini/mini.icons",
     "ibhagwan/fzf-lua",
@@ -29,7 +29,7 @@ local function plug_setting()
   require("devil.notify").setup()
   require("devil.conform").setup()
   require("lazydev").setup({})
-  require("fidget").setup({})
+  -- require("fidget").setup({})
   require("fzf-lua").setup({})
 
   require("gitsigns").setup({
@@ -41,6 +41,11 @@ local function plug_setting()
   })
 
   require("nvim-treesitter").setup()
+end
+
+local function setup_builtin_tools()
+  pcall(vim.cmd, "packadd nvim.undotree")
+  pcall(vim.cmd, "packadd nvim.difftool")
 end
 
 ---Install configured Treesitter parsers on demand.
@@ -62,6 +67,7 @@ end
 ---Bootstrap plugin layer and apply colorscheme fallback.
 function M.setup()
   plug_install()
+  setup_builtin_tools()
   plug_setting()
   setup_user_commands()
   vim.cmd("colorscheme tokyonight")

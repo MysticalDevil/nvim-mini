@@ -166,6 +166,14 @@ local function get_lsp()
   return string.format("%%#StatusLineLspActive# [%s]%%*", table.concat(names, ", "))
 end
 
+local function get_progress()
+  local status = vim.ui.progress_status()
+  if type(status) ~= "string" or status == "" then
+    return ""
+  end
+  return string.format("%%#StatusLineLspActive#◐ %s%%*", status)
+end
+
 local function get_filename()
   local filename = vim.fn.expand("%:t")
   if filename == "" then return "[No Name]" end
@@ -197,9 +205,10 @@ function M.render()
     " ",
     get_lsp(),
     " ",
+    get_progress(),
+    " ",
     "%l:%c %P",
   })
 end
 
 return M
-

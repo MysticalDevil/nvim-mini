@@ -1,8 +1,8 @@
 local options = {
   backup = false,                          -- create a backup file
   clipboard = "unnamedplus",               -- allows neovim to access the system clipboard
-  cmdheight = 1,                           -- more space in the eovim command line for displaying messages
-  completeopt = { "menuone", "noselect" }, -- mostly just for cmp
+  cmdheight = 0,
+  completeopt = { "menu", "menuone", "noselect", "nearest" }, -- mostly just for cmp
   conceallevel = 0,                        -- so that `` is visiable in markdown files
   fileencoding = "utf-8",                  -- the encoding written to a file
   hlsearch = true,                         -- highlight all matches on previous search pattern
@@ -33,6 +33,11 @@ local options = {
   colorcolumn = "120",                     -- the reference line on the tight indicates the recommended length of code
   wildmenu = true,
 
+  pumborder = "rounded",
+  pummaxwidth = 40,
+  autocomplete = true,
+  complete = ".^5,t^3,w",
+
   signcolumn = "yes",                                                           -- always show the sign column, otherwise it would shift the text each time
   wrap = false,                                                                 -- display lines as one long line
   linebreak = true,                                                             -- companion to wrap, don't split words
@@ -50,6 +55,51 @@ local options = {
 
 local M = {}
 
+local function enable_ui2()
+  local ok, ui2 = pcall(require, "vim._core.ui2")
+  if not ok then
+    return
+  end
+
+  ui2.enable({
+    enable = true,
+    msg = {
+      targets = "cmd",
+      cmd = { height = 0.5 },
+      dialog = { height = 0.5 },
+      msg = { height = 0.5, timeout = 4000 },
+      pager = { height = 1 },
+    },
+  })
+end
+
+local function setup_net_get_command()
+  vim.api.nvim_create_user_command("NetGet", function(cmd)
+    local url = cmd.args
+    vim.net.request(url, {}, function(err, response)
+      if err then
+        vim.schedule(function()
+          vim.notify("NetGet failed: " .. tostring(err), vim.log.levels.ERROR)
+        end)
+        return
+      end
+
+      local body = response and response.body or ""
+      vim.schedule(function()
+        local buf = vim.api.nvim_create_buf(true, true)
+        local lines = vim.split(body, "\n", { plain = true })
+        vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+        vim.bo[buf].bufhidden = "wipe"
+        vim.bo[buf].modifiable = false
+        local is_json = pcall(vim.json.decode, body)
+        vim.bo[buf].filetype = is_json and "json" or "text"
+        vim.api.nvim_buf_set_name(buf, "net://" .. url)
+        vim.api.nvim_set_current_buf(buf)
+      end)
+    end)
+  end, { desc = "HTTP GET into scratch buffer", nargs = 1 })
+end
+
 function M.setup()
   for k, v in pairs(options) do
     vim.opt[k] = v
@@ -63,6 +113,8 @@ function M.setup()
 
   vim.g.encoding = "UTF-8"
   vim.loader.enable() -- improve startup time for neovim
+  enable_ui2()
+  setup_net_get_command()
 end
 
 return M

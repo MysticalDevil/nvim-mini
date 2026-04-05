@@ -25,6 +25,31 @@ local function resolve_server_bin(server, config)
   return server_binaries[server] or server
 end
 
+local function setup_lsp_progress_echo()
+  local group = vim.api.nvim_create_augroup("DevilLspProgress", { clear = true })
+
+  vim.api.nvim_create_autocmd("LspProgress", {
+    group = group,
+    callback = function(ev)
+      local params = ev.data and ev.data.params
+      local value = params and params.value
+      if not value then
+        return
+      end
+
+      vim.api.nvim_echo({ { value.message or "done" } }, false, {
+        id = "lsp." .. tostring(ev.data.client_id),
+        kind = "progress",
+        source = "vim.lsp",
+        title = value.title,
+        status = value.kind ~= "end" and "running" or "success",
+        percent = value.percentage,
+      })
+    end,
+    desc = "Render LSP progress in native progress area",
+  })
+end
+
 ---Configure and enable LSP servers, completion, and LspAttach keymaps.
 function M.setup()
   for server, config in pairs(servers) do
@@ -42,6 +67,7 @@ function M.setup()
     ::continue::
   end
 
+  setup_lsp_progress_echo()
   cmp.setup()
 
   local lsp_attach_group = vim.api.nvim_create_augroup("DevilLspAttachKeymaps", { clear = true })

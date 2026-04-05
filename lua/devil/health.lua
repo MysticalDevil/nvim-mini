@@ -36,7 +36,15 @@ end
 ---Check whether custom user commands are registered.
 ---@param lines string[]
 local function check_commands(lines)
-  local commands = { "PackSync", "TSInstallAll", "DiagVirtualLinesToggle", "KeymapHelp" }
+  local commands = {
+    "PackSync",
+    "TSInstallAll",
+    "DiagVirtualLinesToggle",
+    "KeymapHelp",
+    "Undotree",
+    "DiffTool",
+    "NetGet",
+  }
   for _, cmd in ipairs(commands) do
     local ok = vim.fn.exists(":" .. cmd) == 2
     push(lines, ok and "OK" or "WARN", "command :" .. cmd)

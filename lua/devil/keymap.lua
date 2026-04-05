@@ -62,6 +62,8 @@ M.general = {
   { mode = "n", lhs = "<leader>bn", rhs = "<cmd> enew <CR>", desc = "New buffer" },
   { mode = "n", lhs = "<leader>ch", rhs = "<cmd>KeymapHelp<CR>", desc = "Mapping cheatsheet" },
   { mode = "n", lhs = "<leader>dv", rhs = "<cmd>DiagVirtualLinesToggle<CR>", desc = "Toggle diagnostic virtual lines" },
+  { mode = "n", lhs = "<leader>fu", rhs = "<cmd>Undotree<CR>", desc = "Open builtin undotree" },
+  { mode = "n", lhs = "<leader>fD", rhs = "<cmd>DiffTool<CR>", desc = "Open builtin diff tool" },
   { mode = "n", lhs = "<leader>fb", rhs = picker.buffers, desc = "Find buffers" },
   { mode = "n", lhs = "<leader>fd", rhs = picker.diagnostics, desc = "Find diagnostics" },
   { mode = "n", lhs = "<leader>ff", rhs = picker.files, desc = "Find files" },

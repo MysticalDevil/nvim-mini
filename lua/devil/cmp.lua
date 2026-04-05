@@ -138,7 +138,7 @@ local function setup_completion_hl_autocmd()
 end
 
 local function setup_completeopt()
-  vim.opt.completeopt = { "menuone", "noselect", "popup" }
+  vim.opt.completeopt = { "menu", "menuone", "noselect", "popup", "nearest" }
 end
 
 local function shorten_middle(s, maxlen)
