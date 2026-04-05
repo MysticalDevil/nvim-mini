@@ -86,12 +86,28 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 })
 
 local ts_augroup = vim.api.nvim_create_augroup("treesitter_augroup", { clear = true })
+local ts_missing_notified = {}
 vim.api.nvim_create_autocmd('FileType', {
   group = ts_augroup,
   pattern = { "c", "lua", "rust", "zig", "go" },
   callback = function(args)
-    vim.treesitter.start(args.buf)
-    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    local ft = vim.bo[args.buf].filetype
+    local ok = pcall(vim.treesitter.start, args.buf)
+    if not ok then
+      if not ts_missing_notified[ft] then
+        ts_missing_notified[ft] = true
+        vim.notify(
+          string.format("[treesitter] parser for `%s` is not installed; skipping TS features", ft),
+          vim.log.levels.WARN
+        )
+      end
+      return
+    end
+
+    local has_ts, _ = pcall(require, "nvim-treesitter")
+    if has_ts then
+      vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end
   end,
 })
 
