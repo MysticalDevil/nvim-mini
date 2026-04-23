@@ -1,13 +1,6 @@
 local M = {}
 
----Executable names expected for configured LSP servers.
----@type table<string, string>
-local server_binaries = {
-  lua_ls = "lua-language-server",
-  gopls = "gopls",
-  rust_analyzer = "rust-analyzer",
-  zls = "zls",
-}
+local server_binaries = require("devil.servers").server_binaries
 
 ---Append one rendered health line.
 ---@param lines string[]

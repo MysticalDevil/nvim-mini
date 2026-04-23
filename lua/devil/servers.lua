@@ -125,4 +125,11 @@ M.servers = {
   },
 }
 
+M.server_binaries = {
+  lua_ls = "lua-language-server",
+  gopls = "gopls",
+  rust_analyzer = "rust-analyzer",
+  zls = "zls",
+}
+
 return M
