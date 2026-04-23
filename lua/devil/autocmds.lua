@@ -87,7 +87,7 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 
 local ts_augroup = vim.api.nvim_create_augroup("treesitter_augroup", { clear = true })
 local ts_missing_notified = {}
-vim.api.nvim_create_autocmd('FileType', {
+vim.api.nvim_create_autocmd("FileType", {
   group = ts_augroup,
   pattern = { "c", "lua", "rust", "zig", "go" },
   callback = function(args)
