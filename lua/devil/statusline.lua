@@ -79,6 +79,30 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   callback = set_highlights,
 })
 
+local function update_lsp_client_names(bufnr)
+  local clients = vim.lsp.get_clients({ bufnr = bufnr })
+  local names = {}
+  for _, client in ipairs(clients) do
+    names[#names + 1] = client.name
+  end
+  vim.b[bufnr].lsp_client_names = names
+  vim.cmd("redrawstatus")
+end
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = aug,
+  callback = function(args)
+    update_lsp_client_names(args.buf)
+  end,
+})
+
+vim.api.nvim_create_autocmd("LspDetach", {
+  group = aug,
+  callback = function(args)
+    update_lsp_client_names(args.buf)
+  end,
+})
+
 local mode_map = {
   ["n"] = { name = "NORMAL", hl = "Normal" },
   ["no"] = { name = "O-PENDING", hl = "Normal" },
@@ -152,16 +176,10 @@ local function get_diagnostics()
 end
 
 local function get_lsp()
-  local clients = vim.lsp.get_clients({ bufnr = 0 })
-  if #clients == 0 then
+  local names = vim.b.lsp_client_names
+  if not names or #names == 0 then
     return "%#StatusLineLspInactive# No LSP%*"
   end
-
-  local names = {}
-  for _, client in ipairs(clients) do
-    names[#names + 1] = client.name
-  end
-
   return string.format("%%#StatusLineLspActive# [%s]%%*", table.concat(names, ", "))
 end
 
