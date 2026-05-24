@@ -55,10 +55,7 @@ function M.setup()
   for server, config in pairs(servers) do
     local bin = resolve_server_bin(server, config)
     if vim.fn.executable(bin) ~= 1 then
-      vim.notify(
-        string.format("[lsp] %s skipped: executable `%s` not found in PATH", server, bin),
-        vim.log.levels.WARN
-      )
+      vim.notify(string.format("[lsp] %s skipped: executable `%s` not found in PATH", server, bin), vim.log.levels.WARN)
       goto continue
     end
 

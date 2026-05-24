@@ -5,7 +5,16 @@ local M = {}
 ---Treesitter parsers managed by this config.
 ---@type string[]
 local ts_parsers = {
-  "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "rust", "zig", "go",
+  "c",
+  "lua",
+  "vim",
+  "vimdoc",
+  "query",
+  "markdown",
+  "markdown_inline",
+  "rust",
+  "zig",
+  "go",
 }
 
 ---Install/sync plugin sources through vim.pack.

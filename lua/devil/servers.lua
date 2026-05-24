@@ -8,7 +8,7 @@ M.servers = {
     settings = {
       Lua = {
         runtime = { version = "LuaJIT" },
-        workspace = { checkThirdParty = false, },
+        workspace = { checkThirdParty = false },
         telemetry = { enable = false },
         hint = {
           enable = true,

@@ -21,17 +21,22 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
   group = stl_augroup,
   callback = function(args)
     local bt = vim.bo[args.buf].buftype
-    if bt ~= "" then return end
+    if bt ~= "" then
+      return
+    end
 
-    if vim.b[args.buf].gitsigns_attached then return end
+    if vim.b[args.buf].gitsigns_attached then
+      return
+    end
 
     local ok, gs = pcall(require, "gitsigns")
-    if not ok then return end
+    if not ok then
+      return
+    end
 
     pcall(gs.attach, args.buf)
   end,
 })
-
 
 local diag_augroup = vim.api.nvim_create_augroup("diagnostic_tweaks", { clear = true })
 
@@ -87,7 +92,7 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 
 local ts_augroup = vim.api.nvim_create_augroup("treesitter_augroup", { clear = true })
 local ts_missing_notified = {}
-vim.api.nvim_create_autocmd('FileType', {
+vim.api.nvim_create_autocmd("FileType", {
   group = ts_augroup,
   pattern = { "c", "lua", "rust", "zig", "go" },
   callback = function(args)
@@ -117,10 +122,18 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   callback = function(args)
     local bufnr = args.buf
-    if not vim.api.nvim_buf_is_valid(bufnr) then return end
-    if vim.bo[bufnr].buftype ~= "" then return end
-    if not vim.bo[bufnr].modifiable then return end
-    if vim.api.nvim_buf_get_name(bufnr) == "" then return end
+    if not vim.api.nvim_buf_is_valid(bufnr) then
+      return
+    end
+    if vim.bo[bufnr].buftype ~= "" then
+      return
+    end
+    if not vim.bo[bufnr].modifiable then
+      return
+    end
+    if vim.api.nvim_buf_get_name(bufnr) == "" then
+      return
+    end
 
     formatter.format({ bufnr = args.buf, async = false })
   end,

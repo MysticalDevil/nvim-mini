@@ -12,9 +12,13 @@ local function snippet_jumpable(dir)
     return false
   end
   local ok, active = pcall(vim.snippet.active, { direction = dir })
-  if ok and active then return true end
+  if ok and active then
+    return true
+  end
   ok, active = pcall(vim.snippet.active, { jump_dir = dir })
-  if ok and active then return true end
+  if ok and active then
+    return true
+  end
   ok, active = pcall(vim.snippet.active)
   return ok and active or false
 end
@@ -23,13 +27,17 @@ M.mappings = {
   {
     mode = "i",
     lhs = "<C-Space>",
-    rhs = function() vim.lsp.completion.get() end,
+    rhs = function()
+      vim.lsp.completion.get()
+    end,
     desc = "LSP completion (native)",
   },
   {
     mode = "i",
     lhs = "<CR>",
-    rhs = function() return pumvisible() and "<C-y>" or "<CR>" end,
+    rhs = function()
+      return pumvisible() and "<C-y>" or "<CR>"
+    end,
     desc = "Confirm completion / Enter",
     opts = { expr = true, replace_keycodes = true },
   },
@@ -43,7 +51,9 @@ M.mappings = {
     mode = { "i", "s" },
     lhs = "<Tab>",
     rhs = function()
-      if pumvisible() then return "<C-n>" end
+      if pumvisible() then
+        return "<C-n>"
+      end
       if snippet_jumpable(1) then
         vim.snippet.jump(1)
         return ""
@@ -57,7 +67,9 @@ M.mappings = {
     mode = { "i", "s" },
     lhs = "<S-Tab>",
     rhs = function()
-      if pumvisible() then return "<C-p>" end
+      if pumvisible() then
+        return "<C-p>"
+      end
       if snippet_jumpable(-1) then
         vim.snippet.jump(-1)
         return ""
@@ -71,7 +83,9 @@ M.mappings = {
     mode = "i",
     lhs = "<C-n>",
     rhs = function()
-      if pumvisible() then return "<C-n>" end
+      if pumvisible() then
+        return "<C-n>"
+      end
       vim.lsp.completion.get()
       return ""
     end,
@@ -82,7 +96,9 @@ M.mappings = {
     mode = "i",
     lhs = "<C-p>",
     rhs = function()
-      if pumvisible() then return "<C-p>" end
+      if pumvisible() then
+        return "<C-p>"
+      end
       vim.lsp.completion.get()
       return ""
     end,
@@ -142,21 +158,31 @@ local function setup_completeopt()
 end
 
 local function shorten_middle(s, maxlen)
-  if not s then return "" end
-  if #s <= maxlen then return s end
-  if maxlen <= 5 then return s:sub(1, maxlen) end
+  if not s then
+    return ""
+  end
+  if #s <= maxlen then
+    return s
+  end
+  if maxlen <= 5 then
+    return s:sub(1, maxlen)
+  end
   local head = math.floor((maxlen - 1) * 0.6)
   local tail = (maxlen - 1) - head
   return s:sub(1, head) .. "…" .. s:sub(#s - tail + 1)
 end
 
 local function relpath(p)
-  if not p or p == "" then return p end
+  if not p or p == "" then
+    return p
+  end
   local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":p")
   local rp = vim.fn.fnamemodify(p, ":p")
   if rp:sub(1, #cwd) == cwd then
     local out = rp:sub(#cwd + 1)
-    if out:sub(1, 1) == "/" then out = out:sub(2) end
+    if out:sub(1, 1) == "/" then
+      out = out:sub(2)
+    end
     return out
   end
   return vim.fn.fnamemodify(p, ":~")
@@ -164,7 +190,9 @@ end
 
 local kind_names = {}
 for k, v in pairs(vim.lsp.protocol.CompletionItemKind) do
-  if type(k) == "string" then kind_names[v] = k end
+  if type(k) == "string" then
+    kind_names[v] = k
+  end
 end
 
 local function make_item_preprocess(max_file_len)
@@ -189,7 +217,9 @@ local function setup_native_completion()
 
   local function kind_hlgroup(kind_id)
     local kind_name = kind_names[kind_id]
-    if not kind_name then return nil, nil end
+    if not kind_name then
+      return nil, nil
+    end
     return "CmpItemKind" .. kind_name, kind_name
   end
 
@@ -198,7 +228,9 @@ local function setup_native_completion()
     callback = function(args)
       local bufnr = args.buf
       local client = vim.lsp.get_client_by_id(args.data.client_id)
-      if not client then return end
+      if not client then
+        return
+      end
 
       vim.lsp.completion.enable(true, client.id, bufnr, {
         autotrigger = true,

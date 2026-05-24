@@ -24,14 +24,18 @@ end
 
 local function get_color(group_name)
   local hl = vim.api.nvim_get_hl(0, { name = group_name, link = false })
-  if not hl or not hl.fg then return nil end
+  if not hl or not hl.fg then
+    return nil
+  end
   return hl.fg
 end
 
 local function set_highlights()
   local function set_mode_hl(name, link_group)
     local color = get_color(link_group)
-    if not color then return end
+    if not color then
+      return
+    end
 
     local status = get_hl("StatusLine")
     local normal = get_hl("Normal")
@@ -123,14 +127,19 @@ local function get_mode()
 
   return string.format(
     "%%#StatusLineMode%s#%%#StatusLineMode%sText# %s %%#StatusLineMode%s#%%*",
-    data.hl, data.hl, data.name, data.hl
+    data.hl,
+    data.hl,
+    data.name,
+    data.hl
   )
 end
 
 local function get_git()
   local dict = vim.b.gitsigns_status_dict
   local branch = (dict and dict.head) or vim.b.gitsigns_head
-  if not branch or branch == "" then return "" end
+  if not branch or branch == "" then
+    return ""
+  end
 
   local parts = { string.format("%%#StatusLineGit# %s%%*", branch) }
 
@@ -142,16 +151,24 @@ local function get_git()
   local changed = dict.changed and dict.changed > 0 and ("%#StatusLineGitChanged#~" .. dict.changed .. "%*") or ""
   local removed = dict.removed and dict.removed > 0 and ("%#StatusLineGitRemoved#-" .. dict.removed .. "%*") or ""
 
-  if added ~= "" then parts[#parts + 1] = added end
-  if changed ~= "" then parts[#parts + 1] = changed end
-  if removed ~= "" then parts[#parts + 1] = removed end
+  if added ~= "" then
+    parts[#parts + 1] = added
+  end
+  if changed ~= "" then
+    parts[#parts + 1] = changed
+  end
+  if removed ~= "" then
+    parts[#parts + 1] = removed
+  end
 
   return table.concat(parts, " ")
 end
 
 local function get_diagnostics()
   local all = vim.diagnostic.get(0)
-  if #all == 0 then return "" end
+  if #all == 0 then
+    return ""
+  end
 
   local counts = { error = 0, warn = 0, info = 0, hint = 0 }
   for _, d in ipairs(all) do
@@ -167,10 +184,18 @@ local function get_diagnostics()
   end
 
   local parts = {}
-  if counts.error > 0 then table.insert(parts, "%#StatusLineDiagError#E" .. counts.error .. "%*") end
-  if counts.warn > 0 then table.insert(parts, "%#StatusLineDiagWarn#W" .. counts.warn .. "%*") end
-  if counts.info > 0 then table.insert(parts, "%#StatusLineDiagInfo#I" .. counts.info .. "%*") end
-  if counts.hint > 0 then table.insert(parts, "%#StatusLineDiagHint#H" .. counts.hint .. "%*") end
+  if counts.error > 0 then
+    table.insert(parts, "%#StatusLineDiagError#E" .. counts.error .. "%*")
+  end
+  if counts.warn > 0 then
+    table.insert(parts, "%#StatusLineDiagWarn#W" .. counts.warn .. "%*")
+  end
+  if counts.info > 0 then
+    table.insert(parts, "%#StatusLineDiagInfo#I" .. counts.info .. "%*")
+  end
+  if counts.hint > 0 then
+    table.insert(parts, "%#StatusLineDiagHint#H" .. counts.hint .. "%*")
+  end
 
   return table.concat(parts, " ")
 end
@@ -193,7 +218,9 @@ end
 
 local function get_filename()
   local filename = vim.fn.expand("%:t")
-  if filename == "" then return "[No Name]" end
+  if filename == "" then
+    return "[No Name]"
+  end
 
   local icon, icon_hl = icons.get("file", filename)
 
