@@ -55,24 +55,6 @@ local options = {
 
 local M = {}
 
-local function enable_ui2()
-  local ok, ui2 = pcall(require, "vim._core.ui2")
-  if not ok then
-    return
-  end
-
-  ui2.enable({
-    enable = true,
-    msg = {
-      targets = "cmd",
-      cmd = { height = 0.5 },
-      dialog = { height = 0.5 },
-      msg = { height = 0.5, timeout = 4000 },
-      pager = { height = 1 },
-    },
-  })
-end
-
 local function setup_net_get_command()
   vim.api.nvim_create_user_command("NetGet", function(cmd)
     local url = cmd.args
@@ -113,7 +95,6 @@ function M.setup()
 
   vim.g.encoding = "UTF-8"
   vim.loader.enable() -- improve startup time for neovim
-  enable_ui2()
   setup_net_get_command()
 end
 
