@@ -39,7 +39,10 @@ local function plug_setting()
   require("devil.conform").setup()
   require("lazydev").setup({})
   -- require("fidget").setup({})
-  require("fzf-lua").setup({})
+  local ok_fzf, _ = pcall(require, "fzf-lua")
+  if ok_fzf then
+    require("fzf-lua").setup({})
+  end
 
   require("gitsigns").setup({
     attach_to_untracked = true,
