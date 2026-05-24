@@ -134,14 +134,21 @@ local function get_git()
 end
 
 local function get_diagnostics()
-  if #vim.diagnostic.get(0) == 0 then return "" end
+  local all = vim.diagnostic.get(0)
+  if #all == 0 then return "" end
 
-  local counts = {
-    error = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR }),
-    warn = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN }),
-    info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO }),
-    hint = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT }),
-  }
+  local counts = { error = 0, warn = 0, info = 0, hint = 0 }
+  for _, d in ipairs(all) do
+    if d.severity == vim.diagnostic.severity.ERROR then
+      counts.error = counts.error + 1
+    elseif d.severity == vim.diagnostic.severity.WARN then
+      counts.warn = counts.warn + 1
+    elseif d.severity == vim.diagnostic.severity.INFO then
+      counts.info = counts.info + 1
+    elseif d.severity == vim.diagnostic.severity.HINT then
+      counts.hint = counts.hint + 1
+    end
+  end
 
   local parts = {}
   if counts.error > 0 then table.insert(parts, "%#StatusLineDiagError#E" .. counts.error .. "%*") end
