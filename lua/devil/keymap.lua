@@ -193,14 +193,6 @@ M.lsp = {
   { mode = "n", lhs = "<leader>ca", rhs = vim.lsp.buf.code_action, desc = "Code action" },
   {
     mode = "n",
-    lhs = "<leader>fm",
-    rhs = function()
-      formatter.format({ async = true })
-    end,
-    desc = "Format (LSP)",
-  },
-  {
-    mode = "n",
     lhs = "[d",
     rhs = function()
       vim.diagnostic.jump({ count = -1, float = { border = "rounded" } })
