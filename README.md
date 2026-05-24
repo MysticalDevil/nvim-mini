@@ -6,7 +6,7 @@ Minimal Neovim configuration focused on built-in LSP and a small set of plugins.
 
 - Opinionated defaults for editor options.  
 - Built-in LSP configuration for Lua, Go, Rust, and Zig.  
-- Lightweight plugin set (Treesitter, TokyoNight, LSP config, LazyDev, fzf-lua, notify, conform).  
+- Lightweight plugin set (Treesitter, TokyoNight, LSP config, LazyDev, fzf-lua, notify, conform, gitsigns, mini.icons).  
 - Keymaps for common editing and LSP actions.  
 
 ## Requirements
@@ -45,13 +45,24 @@ Minimal Neovim configuration focused on built-in LSP and a small set of plugins.
 ├── init.lua
 └── lua
     └── devil
+        ├── autocmds.lua    # global autocommands
         ├── base.lua        # core editor options
-        ├── cmp.lua         # native completion keymaps
+        ├── cmp.lua         # native completion setup
+        ├── conform.lua     # formatter config (conform.nvim)
+        ├── diag.lua        # diagnostic display config
+        ├── format.lua      # format dispatcher (conform → LSP)
+        ├── health.lua      # :DevilHealth command
+        ├── help.lua        # :KeymapHelp command
+        ├── init.lua        # module bootstrap
         ├── keymap.lua      # general + LSP keymaps
-        ├── lsp.lua         # LSP setup + keymap binding
+        ├── local.example.lua # template for host-specific overrides
+        ├── lsp.lua         # LSP server setup + LspAttach keymaps
+        ├── notify.lua      # nvim-notify config
+        ├── picker.lua      # fzf-lua wrapper with fallbacks
+        ├── plug.lua        # plugin list + config
         ├── servers.lua     # per-language server config
-        ├── plug.lua        # plugin list
-        └── utils.lua       # keymap helpers
+        ├── statusline.lua  # custom statusline
+        └── utils.lua       # keymap / plugin helpers
 ```
 
 ## Notes
@@ -68,6 +79,7 @@ Minimal Neovim configuration focused on built-in LSP and a small set of plugins.
 - `:DiagVirtualLinesToggle` toggle diagnostic virtual lines.
 - `:KeymapHelp` open built-in keymap cheatsheet.
 - `:DevilHealth` run quick environment/config checks.
+- `:NetGet <url>` HTTP GET response into a scratch buffer.
 
 ## Finder Keymaps
 
@@ -78,6 +90,8 @@ Minimal Neovim configuration focused on built-in LSP and a small set of plugins.
 - `<leader>fd` show document diagnostics.
 - `<leader>fr` show LSP references.
 - `<leader>fs` show document symbols.
+- `<leader>fu` open built-in undotree.
+- `<leader>fD` open built-in diff tool.
 
 ## First-Run Troubleshooting
 
