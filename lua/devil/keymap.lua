@@ -170,7 +170,7 @@ M.general = {
     mode = "x",
     lhs = "p",
     rhs = 'p:let @+=@0<CR>:let @"=@0<CR>',
-    desc = "Dont copy replaced text",
+    desc = "Don't copy replaced text",
     opts = { silent = true },
   },
 
