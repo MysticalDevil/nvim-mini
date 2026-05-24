@@ -153,10 +153,6 @@ local function setup_completion_hl_autocmd()
   apply_completion_hl()
 end
 
-local function setup_completeopt()
-  vim.opt.completeopt = { "menu", "menuone", "noselect", "popup", "nearest" }
-end
-
 local function shorten_middle(s, maxlen)
   if not s then
     return ""
@@ -259,7 +255,6 @@ local function setup_native_completion()
 end
 
 function M.setup()
-  setup_completeopt()
   setup_completion_hl_autocmd()
   setup_native_completion()
   utils.set_keymaps(M.mappings)
