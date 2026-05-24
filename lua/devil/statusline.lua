@@ -79,14 +79,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   callback = set_highlights,
 })
 
-vim.api.nvim_create_autocmd("User", {
-  group = aug,
-  pattern = "GitSignsUpdate",
-  callback = function()
-    vim.cmd("redrawstatus")
-  end,
-})
-
 local mode_map = {
   ["n"] = { name = "NORMAL", hl = "Normal" },
   ["no"] = { name = "O-PENDING", hl = "Normal" },
