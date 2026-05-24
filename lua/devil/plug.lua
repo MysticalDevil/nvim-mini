@@ -24,9 +24,9 @@ local function plug_install()
     "folke/tokyonight.nvim",
     "neovim/nvim-lspconfig",
     "folke/lazydev.nvim",
-    -- "j-hui/fidget.nvim",
     "lewis6991/gitsigns.nvim",
     "nvim-mini/mini.icons",
+    "nvim-mini/mini.files",
     "ibhagwan/fzf-lua",
     "rcarriga/nvim-notify",
     "stevearc/conform.nvim",
@@ -35,14 +35,36 @@ end
 
 ---Configure installed plugins.
 local function plug_setting()
+  require("mini.icons").setup()
+
   require("devil.notify").setup()
   require("devil.conform").setup()
   require("lazydev").setup({})
-  -- require("fidget").setup({})
   local ok_fzf, _ = pcall(require, "fzf-lua")
   if ok_fzf then
     require("fzf-lua").setup({})
   end
+
+  require("mini.files").setup({
+    mappings = {
+      close = "q",
+      go_in = "l",
+      go_in_plus = "L",
+      go_out = "h",
+      go_out_plus = "H",
+      reset = "<BS>",
+      reveal_cwd = "@",
+      show_help = "g?",
+      synchronize = "=",
+      trim_left = "<",
+      trim_right = ">",
+    },
+    windows = {
+      preview = true,
+      width_focus = 30,
+      width_preview = 40,
+    },
+  })
 
   require("gitsigns").setup({
     attach_to_untracked = true,
@@ -82,6 +104,12 @@ function M.setup()
   setup_builtin_tools()
   plug_setting()
   setup_user_commands()
+
+  -- Auto-install configured Treesitter parsers shortly after startup.
+  vim.defer_fn(function()
+    pcall(install_treesitter_parsers)
+  end, 100)
+
   vim.cmd("colorscheme tokyonight")
 end
 

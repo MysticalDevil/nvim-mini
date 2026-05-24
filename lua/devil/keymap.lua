@@ -111,6 +111,15 @@ M.general = {
   { mode = "n", lhs = "<leader><Tab>l", rhs = "<cmd>tablast<CR>", desc = "Switch to last tab" },
   { mode = "n", lhs = "<leader><Tab>c", rhs = "<cmd>tabclose<CR>", desc = "Close tab" },
 
+  {
+    mode = "n",
+    lhs = "<M-m>",
+    rhs = function()
+      require("mini.files").open()
+    end,
+    desc = "File explorer",
+  },
+
   { mode = "n", lhs = "zo", rhs = "<CMD>foldopen<CR>", desc = "Open fold" },
   { mode = "n", lhs = "zc", rhs = "<CMD>foldclose<CR>", desc = "Close fold" },
 

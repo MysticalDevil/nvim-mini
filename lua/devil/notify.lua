@@ -11,7 +11,7 @@ function M.setup()
     render = "wrapped-default",
     stages = "fade_in_slide_out",
     timeout = 1800,
-    top_down = false,
+    top_down = true,
   })
 
   vim.notify = notify

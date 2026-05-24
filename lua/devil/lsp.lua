@@ -1,18 +1,10 @@
 local M = {}
 
 local servers = require("devil.servers").servers
+local server_binaries = require("devil.servers").server_binaries
 local km = require("devil.keymap")
 local utils = require("devil.utils")
 local cmp = require("devil.cmp")
-
----Fallback executable names for known language servers.
----@type table<string, string>
-local server_binaries = {
-  lua_ls = "lua-language-server",
-  gopls = "gopls",
-  rust_analyzer = "rust-analyzer",
-  zls = "zls",
-}
 
 ---Resolve executable path for a server.
 ---@param server string
@@ -54,14 +46,12 @@ end
 function M.setup()
   for server, config in pairs(servers) do
     local bin = resolve_server_bin(server, config)
-    if vim.fn.executable(bin) ~= 1 then
+    if vim.fn.executable(bin) == 1 then
+      vim.lsp.config(server, config)
+      vim.lsp.enable(server)
+    else
       vim.notify(string.format("[lsp] %s skipped: executable `%s` not found in PATH", server, bin), vim.log.levels.WARN)
-      goto continue
     end
-
-    vim.lsp.config(server, config)
-    vim.lsp.enable(server)
-    ::continue::
   end
 
   setup_lsp_progress_echo()
@@ -72,8 +62,7 @@ function M.setup()
     group = lsp_attach_group,
     callback = function(args)
       local bufnr = args.buf
-      local client = vim.lsp.get_client_by_id(args.data.client_id)
-      if not client then
+      if not vim.lsp.get_client_by_id(args.data.client_id) then
         return
       end
 
