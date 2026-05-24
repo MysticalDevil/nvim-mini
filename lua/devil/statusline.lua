@@ -75,7 +75,7 @@ local function set_highlights()
   vim.api.nvim_set_hl(0, "StatusLineLspInactive", { link = "Comment" })
 end
 
-local aug = vim.api.nvim_create_augroup("MyStatusline", { clear = true })
+local aug = vim.api.nvim_create_augroup("DevilStatusline", { clear = true })
 
 set_highlights()
 vim.api.nvim_create_autocmd("ColorScheme", {

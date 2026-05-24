@@ -1,6 +1,6 @@
 local formatter = require("devil.format")
 
-local stl_augroup = vim.api.nvim_create_augroup("StatuslineGit", { clear = true })
+local stl_augroup = vim.api.nvim_create_augroup("DevilStatusline", { clear = true })
 
 vim.api.nvim_create_autocmd("User", {
   group = stl_augroup,
@@ -38,7 +38,7 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
   end,
 })
 
-local diag_augroup = vim.api.nvim_create_augroup("diagnostic_tweaks", { clear = true })
+local diag_augroup = vim.api.nvim_create_augroup("DevilDiagnosticTweaks", { clear = true })
 
 -- Cache the default virtual_text configuration.
 -- Note: This assumes you generally want virtual_text enabled globally.
@@ -90,7 +90,7 @@ vim.api.nvim_create_autocmd("InsertLeave", {
   end,
 })
 
-local ts_augroup = vim.api.nvim_create_augroup("treesitter_augroup", { clear = true })
+local ts_augroup = vim.api.nvim_create_augroup("DevilTreesitter", { clear = true })
 local ts_missing_notified = {}
 vim.api.nvim_create_autocmd("FileType", {
   group = ts_augroup,
@@ -116,7 +116,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-local lsp_augroup = vim.api.nvim_create_augroup("lsp_augroup", { clear = true })
+local lsp_augroup = vim.api.nvim_create_augroup("DevilLspAutoformat", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = lsp_augroup,
   pattern = "*",
